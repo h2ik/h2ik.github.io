@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on h2ik | hell if i know</title>
+    <link>https://h2ik.co/tags/golang/</link>
+    <description>Recent content in golang on h2ik | hell if i know</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2017-2019 h2ik | Build With &lt;a href=&#34;http://gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; ♥</copyright>
+    <lastBuildDate>Sat, 28 Jan 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://h2ik.co/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>GoLang AWS SQS Poller</title>
+      <link>https://h2ik.co/2017/01/28/go-sqs-poller/</link>
+      <pubDate>Sat, 28 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://h2ik.co/2017/01/28/go-sqs-poller/</guid>
+      <description>I recently took up learning Go. While trying to find something to rewrite I go, I noticed at work that we had a poller running in ruby that would take messages out of a SQS queue and pass them along to another server.
+This small project seemed like the best thing to rewrite. It is a considerably small service and I was able to map out everything in about 2 hours.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://h2ik.co/tags/aws/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/aws/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/2019/02/28/aws-codedeploy-blue-green/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/blue/green/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/codedeploy/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/launchtemplates/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/post/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/</loc>
+    <lastmod>2019-02-28T12:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/end/</loc>
+    <lastmod>2017-03-21T21:39:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/general/</loc>
+    <lastmod>2017-03-21T21:39:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/home/</loc>
+    <lastmod>2017-03-21T21:39:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/keyboard/</loc>
+    <lastmod>2017-03-21T21:39:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/macos/</loc>
+    <lastmod>2017-03-21T21:39:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/post/2017-03-21-mac-os-home-end/</loc>
+    <lastmod>2017-03-21T21:39:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/powerline/</loc>
+    <lastmod>2017-03-18T21:09:37-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/post/2017-03-18-powerline-on-mac/</loc>
+    <lastmod>2017-03-18T21:09:37-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/shell/</loc>
+    <lastmod>2017-03-18T21:09:37-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/shell/</loc>
+    <lastmod>2017-03-18T21:09:37-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/development/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/development/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/go/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/golang/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/golang/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/2017/01/28/go-sqs-poller/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/sqs/</loc>
+    <lastmod>2017-01-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/2014/05/14/dynamic-vagrant-shares/</loc>
+    <lastmod>2014-05-14T15:41:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/vagrant/</loc>
+    <lastmod>2014-05-14T15:41:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/categories/vagrant/</loc>
+    <lastmod>2014-05-14T15:41:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/tags/yaml/</loc>
+    <lastmod>2014-05-14T15:41:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/2014/04/10/blogging-is-hard/</loc>
+    <lastmod>2014-04-10T21:20:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://h2ik.co/2014/03/01/new-site/</loc>
+    <lastmod>2014-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+</urlset>

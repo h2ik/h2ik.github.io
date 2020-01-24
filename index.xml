@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>h2ik | hell if i know</title>
+    <link>https://h2ik.co/</link>
+    <description>Recent content on h2ik | hell if i know</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2017-2019 h2ik | Build With &lt;a href=&#34;http://gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; ♥</copyright>
+    <lastBuildDate>Thu, 28 Feb 2019 12:00:00 -0400</lastBuildDate>
+    
+	<atom:link href="https://h2ik.co/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AWS Blue/Green Deployments with Launch Templates</title>
+      <link>https://h2ik.co/2019/02/28/aws-codedeploy-blue-green/</link>
+      <pubDate>Thu, 28 Feb 2019 12:00:00 -0400</pubDate>
+      
+      <guid>https://h2ik.co/2019/02/28/aws-codedeploy-blue-green/</guid>
+      <description>&lt;p&gt;While working on migrating our CodeDeploys to Blue/Green deployments, I ran into a bug with AWS CodeDeploy.  Specificaly, we are using LaunchTemplates with our AutoScaling groups.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MacOS Proper Home and End Keys</title>
+      <link>https://h2ik.co/post/2017-03-21-mac-os-home-end/</link>
+      <pubDate>Tue, 21 Mar 2017 21:39:47 -0400</pubDate>
+      
+      <guid>https://h2ik.co/post/2017-03-21-mac-os-home-end/</guid>
+      <description>So recently I got a new MacBook Pro and while I didn&#39;t get everything setup the way I had it on my old MacBook, the one thing that was bothering me was the Home and End keys not working like they do on Windows. While this shouldn&#39;t be a deal breaker, I knew on my old MacBook I had it setup so the keys would goto the begning of the line or the end of the line, but I couldn&#39;t remember how it was done.</description>
+    </item>
+    
+    <item>
+      <title>Powerline On Mac</title>
+      <link>https://h2ik.co/post/2017-03-18-powerline-on-mac/</link>
+      <pubDate>Sat, 18 Mar 2017 21:09:37 -0400</pubDate>
+      
+      <guid>https://h2ik.co/post/2017-03-18-powerline-on-mac/</guid>
+      <description>&lt;p&gt;For the longest time, I&#39;ve been trying to get &lt;a href=&#34;https://github.com/powerline/powerline&#34;&gt;powerline&lt;/a&gt; running on my mac.  The documentation is not 100% clear on what to do, so today I sat down and figure it out, and I have to say I&#39;ve very pleased with the results so far.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GoLang AWS SQS Poller</title>
+      <link>https://h2ik.co/2017/01/28/go-sqs-poller/</link>
+      <pubDate>Sat, 28 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://h2ik.co/2017/01/28/go-sqs-poller/</guid>
+      <description>I recently took up learning Go. While trying to find something to rewrite I go, I noticed at work that we had a poller running in ruby that would take messages out of a SQS queue and pass them along to another server.
+This small project seemed like the best thing to rewrite. It is a considerably small service and I was able to map out everything in about 2 hours.</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Vagrant Shares</title>
+      <link>https://h2ik.co/2014/05/14/dynamic-vagrant-shares/</link>
+      <pubDate>Wed, 14 May 2014 15:41:22 +0000</pubDate>
+      
+      <guid>https://h2ik.co/2014/05/14/dynamic-vagrant-shares/</guid>
+      <description>At SugarCRM, we are deploying Vagrant stacks as part of the DevOps Initiative. How ever we ran into a few problems with defining shares. Since no two engineers work the same or have the same setup we couldn&#39;t define shares that were hard coded in the Vagrantfile. We had to come up with a way to do shares that end user could customize easily. While looking for solutions someone pointed out that the Vagrantfile is just Ruby and we could use YAML to define the shares.</description>
+    </item>
+    
+    <item>
+      <title>Blogging is hard</title>
+      <link>https://h2ik.co/2014/04/10/blogging-is-hard/</link>
+      <pubDate>Thu, 10 Apr 2014 21:20:48 +0000</pubDate>
+      
+      <guid>https://h2ik.co/2014/04/10/blogging-is-hard/</guid>
+      <description>One would think that I would have a lot to share with the world, but I find typing out what is in my head very hard. I&#39;m not sure what I can do about it.
+I think I&#39;m going to try and force myself to write a new blog post every two weeks in hope that it will become easier for me to do.
+While I&#39;m not sure what the topics might be, they will mostly be technical in nature maybe some on video games.</description>
+    </item>
+    
+    <item>
+      <title>New Year, New Site</title>
+      <link>https://h2ik.co/2014/03/01/new-site/</link>
+      <pubDate>Sat, 01 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://h2ik.co/2014/03/01/new-site/</guid>
+      <description>Yes it has really been that long, while life has become more chaotic with the coming of the twins, Elijah and Blake, I havn&#39;t been able to update the site like I was in 2012.
+Now that the boys are almost 2 years old, I feel that I can start writing in my blog again. I&#39;m moving away from WordPress to Jekyll. I won&#39;t bore you with the details, but it just came down to I spend the time to manage WordPress or do I goto something more static and easier to use.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on h2ik | hell if i know</title>
+    <link>https://h2ik.co/categories/</link>
+    <description>Recent content in Categories on h2ik | hell if i know</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2017-2019 h2ik | Build With &lt;a href=&#34;http://gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; ♥</copyright>
+    <lastBuildDate>Thu, 28 Feb 2019 12:00:00 -0400</lastBuildDate>
+    
+	<atom:link href="https://h2ik.co/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>aws</title>
+      <link>https://h2ik.co/categories/aws/</link>
+      <pubDate>Thu, 28 Feb 2019 12:00:00 -0400</pubDate>
+      
+      <guid>https://h2ik.co/categories/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>general</title>
+      <link>https://h2ik.co/categories/general/</link>
+      <pubDate>Tue, 21 Mar 2017 21:39:47 -0400</pubDate>
+      
+      <guid>https://h2ik.co/categories/general/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>powerline</title>
+      <link>https://h2ik.co/categories/powerline/</link>
+      <pubDate>Sat, 18 Mar 2017 21:09:37 -0400</pubDate>
+      
+      <guid>https://h2ik.co/categories/powerline/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>https://h2ik.co/categories/shell/</link>
+      <pubDate>Sat, 18 Mar 2017 21:09:37 -0400</pubDate>
+      
+      <guid>https://h2ik.co/categories/shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Development</title>
+      <link>https://h2ik.co/categories/development/</link>
+      <pubDate>Sat, 28 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://h2ik.co/categories/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://h2ik.co/categories/golang/</link>
+      <pubDate>Sat, 28 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://h2ik.co/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vagrant</title>
+      <link>https://h2ik.co/categories/vagrant/</link>
+      <pubDate>Wed, 14 May 2014 15:41:22 +0000</pubDate>
+      
+      <guid>https://h2ik.co/categories/vagrant/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="devops, golang, go, docker, kubernetes" name="keywords">
+<meta content="Jon Whitcraft" name="author">
+<meta property="og:title" content="Powerline On Mac - h2ik | hell if i know">
+<meta property="og:url" content="https://h2ik.co/post/2017-03-18-powerline-on-mac/">
+<meta property="og:description" content="From My Brain To Yours">
+<meta property="og:type" content="website" />
+<title>Powerline On Mac | h2ik | hell if i know</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="https://h2ik.co/css/style.css">
+<link rel="shortcut icon" href="https://h2ik.co/favicon.ico">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+
+</head>
+
+<body>
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://h2ik.co"><h1 class="title is-4">h2ik | hell if i know</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/h2ikco" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/h2ikco" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Powerline On Mac</h1>
+    <h2 class="subtitle is-5">March 18, 2017 by Jon Whitcraft</h2>
+    
+      <div class="tags">
+    
+        <a class="button is-link" href="/tags/shell">shell</a>
+    
+</div>
+
+    
+    <div class="content">
+      <p>For the longest time, I've been trying to get <a href="https://github.com/powerline/powerline">powerline</a> running on my mac.  The documentation is not 100% clear on what to do, so today I sat down and figure it out, and I have to say I've very pleased with the results so far.</p>
+<p><img src="/images/powerline.png" alt="Powerline"></p>
+<p>Here are the steps I took to get it running</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># install python from brew</span>
+brew install python
+
+<span style="color:#75715e"># install powerline from pip</span>
+pip install --user powerline-status
+
+<span style="color:#75715e">#setup my .bash_profile script</span>
+echo <span style="color:#e6db74">&lt;&lt;- EOF
+</span><span style="color:#e6db74">export PATH=&#34;$HOME/Library/Python/2.7/bin:$PATH&#34;
+</span><span style="color:#e6db74">export XDG_CONFIG_DIRS=&#34;$HOME/.config&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">powerline-daemon -q
+</span><span style="color:#e6db74">POWERLINE_BASH_CONTINUATION=1
+</span><span style="color:#e6db74">POWERLINE_BASH_SELECT=1
+</span><span style="color:#e6db74">source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/bash/powerline.sh
+</span><span style="color:#e6db74">EOF</span> &gt;&gt; ~/.bash_profile
+</code></pre></div><p>Once that as done, I just restarted the terminal and was off and running.  I added a few more plugins</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># for better git status</span> 
+pip install --user  powerline-gitstatus
+
+<span style="color:#75715e"># to show what kubernetes context i&#39;m currently in</span>
+pip install --user  powerline-kubernetes
+</code></pre></div><p>My final config ended up like this</p>
+<p><em>In $HOME/.config/powerline/themes/shell/config.json</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+   <span style="color:#f92672">&#34;segments&#34;</span>:{
+      <span style="color:#f92672">&#34;above&#34;</span>:[
+         {
+            <span style="color:#f92672">&#34;left&#34;</span>:[
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.shell.mode&#34;</span>
+               },
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.common.net.hostname&#34;</span>,
+                  <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">10</span>
+               },
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.common.env.user&#34;</span>,
+                  <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">30</span>
+               },
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.shell.cwd&#34;</span>,
+                  <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">10</span>,
+                  <span style="color:#f92672">&#34;args&#34;</span>:{
+                     <span style="color:#f92672">&#34;use_path_separator&#34;</span>:<span style="color:#66d9ef">true</span>
+                  }
+               },
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.shell.jobnum&#34;</span>,
+                  <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">20</span>
+               },
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.shell.continuation&#34;</span>,
+                  <span style="color:#f92672">&#34;draw_hard_divider&#34;</span>:<span style="color:#66d9ef">false</span>
+               }
+            ],
+            <span style="color:#f92672">&#34;right&#34;</span>:[
+               {
+                  <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline_kubernetes.kubernetes&#34;</span>,
+                  <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">30</span>
+               }
+            ]
+         }
+      ],
+      <span style="color:#f92672">&#34;left&#34;</span>:[
+         {
+            <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.shell.mode&#34;</span>
+         },
+         {
+            <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline_gitstatus.gitstatus&#34;</span>,
+            <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">40</span>
+         },
+         {
+            <span style="color:#f92672">&#34;function&#34;</span>:<span style="color:#e6db74">&#34;powerline.segments.shell.last_status&#34;</span>,
+            <span style="color:#f92672">&#34;priority&#34;</span>:<span style="color:#ae81ff">10</span>
+         },
+         {
+            <span style="color:#f92672">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;string&#34;</span>,
+            <span style="color:#f92672">&#34;highlight_groups&#34;</span>:[
+               <span style="color:#e6db74">&#34;information:regular&#34;</span>
+            ],
+            <span style="color:#f92672">&#34;contents&#34;</span>:<span style="color:#e6db74">&#34;↪&#34;</span>
+         }
+      ]
+   }
+}
+</code></pre></div><p>And my colorscheme is</p>
+<p><em>In $HOME/.config/powerline/colorscheme/default.json</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Default&#34;</span>,
+    <span style="color:#f92672">&#34;groups&#34;</span>: {
+    <span style="color:#f92672">&#34;kubernetes&#34;</span>:                { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;darkblue&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;kubernetes:divider&#34;</span>:        { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;darkblue&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;information:additional&#34;</span>:    { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray9&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray4&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;information:regular&#34;</span>:       { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray4&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;information:highlighted&#34;</span>:   { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray4&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;information:priority&#34;</span>:      { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;brightyellow&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;mediumorange&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;warning:regular&#34;</span>:           { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;brightred&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;critical:failure&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;darkestred&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;critical:success&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;darkestgreen&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;background&#34;</span>:                { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;background:divider&#34;</span>:        { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray5&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;session&#34;</span>:                   { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;black&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;date&#34;</span>:                      { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;time&#34;</span>:                      { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;time:divider&#34;</span>:              { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray5&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;email_alert&#34;</span>:               <span style="color:#e6db74">&#34;warning:regular&#34;</span>,
+    <span style="color:#f92672">&#34;email_alert_gradient&#34;</span>:      { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;yellow_orange_red&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;hostname&#34;</span>:                  { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;black&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;weather&#34;</span>:                   { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;weather_temp_gradient&#34;</span>:     { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;blue_red&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;weather_condition_hot&#34;</span>:     { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;khaki1&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;weather_condition_snowy&#34;</span>:   { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;skyblue1&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;weather_condition_rainy&#34;</span>:   { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;skyblue1&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;uptime&#34;</span>:                    { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;external_ip&#34;</span>:               { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;internal_ip&#34;</span>:               { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;network_load&#34;</span>:              { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;network_load_gradient&#34;</span>:     { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;green_yellow_orange_red&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;network_load:divider&#34;</span>:      <span style="color:#e6db74">&#34;background:divider&#34;</span>,
+    <span style="color:#f92672">&#34;system_load&#34;</span>:               { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;system_load_gradient&#34;</span>:      { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;green_yellow_orange_red&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;environment&#34;</span>:               { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;cpu_load_percent&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;cpu_load_percent_gradient&#34;</span>: { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;green_yellow_orange_red&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;battery&#34;</span>:                   { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;battery_gradient&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white_red&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;battery_full&#34;</span>:              { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;red&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;battery_empty&#34;</span>:             { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;player&#34;</span>:                    { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;black&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;user&#34;</span>:                      { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;darkblue&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [<span style="color:#e6db74">&#34;bold&#34;</span>] },
+    <span style="color:#f92672">&#34;branch&#34;</span>:                    { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray9&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;branch_dirty&#34;</span>:              { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;brightyellow&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;branch_clean&#34;</span>:              { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray9&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;branch:divider&#34;</span>:            { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray7&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;cwd&#34;</span>:                       <span style="color:#e6db74">&#34;information:additional&#34;</span>,
+    <span style="color:#f92672">&#34;cwd:current_folder&#34;</span>:        <span style="color:#e6db74">&#34;information:regular&#34;</span>,
+    <span style="color:#f92672">&#34;cwd:divider&#34;</span>:               { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray7&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray4&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;virtualenv&#34;</span>:                { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;white&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;darkcyan&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;attached_clients&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray0&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus&#34;</span>:                 { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_branch&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_branch_clean&#34;</span>:    { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;green&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_branch_dirty&#34;</span>:    { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_branch_detached&#34;</span>: { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;mediumpurple&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_behind&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_ahead&#34;</span>:           { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray10&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_staged&#34;</span>:          { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;green&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_unmerged&#34;</span>:        { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;brightred&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_changed&#34;</span>:         { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;mediumorange&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_untracked&#34;</span>:       { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;brightestorange&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus_stashed&#34;</span>:         { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;darkblue&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] },
+    <span style="color:#f92672">&#34;gitstatus:divider&#34;</span>:         { <span style="color:#f92672">&#34;fg&#34;</span>: <span style="color:#e6db74">&#34;gray8&#34;</span>, <span style="color:#f92672">&#34;bg&#34;</span>: <span style="color:#e6db74">&#34;gray2&#34;</span>, <span style="color:#f92672">&#34;attrs&#34;</span>: [] }
+    }
+}
+
+</code></pre></div>
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fh2ik.co%2fpost%2f2017-03-18-powerline-on-mac%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fh2ik.co%2fpost%2f2017-03-18-powerline-on-mac%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=Powerline%20On%20Mac - https%3a%2f%2fh2ik.co%2fpost%2f2017-03-18-powerline-on-mac%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=https%3a%2f%2fh2ik.co%2fpost%2f2017-03-18-powerline-on-mac%2f&title=Powerline%20On%20Mac" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017-2019 h2ik | Build With <a href="http://gohugo.io" target="_blank">Hugo</a> ♥</p>
+  </div>
+</section>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-381949-8', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>

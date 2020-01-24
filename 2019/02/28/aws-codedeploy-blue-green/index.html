@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="devops, golang, go, docker, kubernetes" name="keywords">
+<meta content="Jon Whitcraft" name="author">
+<meta property="og:title" content="AWS Blue/Green Deployments with Launch Templates - h2ik | hell if i know">
+<meta property="og:url" content="https://h2ik.co/2019/02/28/aws-codedeploy-blue-green/">
+<meta property="og:description" content="From My Brain To Yours">
+<meta property="og:type" content="website" />
+<title>AWS Blue/Green Deployments with Launch Templates | h2ik | hell if i know</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="https://h2ik.co/css/style.css">
+<link rel="shortcut icon" href="https://h2ik.co/favicon.ico">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+
+</head>
+
+<body>
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://h2ik.co"><h1 class="title is-4">h2ik | hell if i know</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/h2ikco" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/h2ikco" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">AWS Blue/Green Deployments with Launch Templates</h1>
+    <h2 class="subtitle is-5">February 28, 2019 by Jon Whitcraft</h2>
+    
+      <div class="tags">
+    
+        <a class="button is-link" href="/tags/aws">aws</a>
+    
+        <a class="button is-link" href="/tags/codedeploy">codedeploy</a>
+    
+        <a class="button is-link" href="/tags/blue/green">blue/green</a>
+    
+        <a class="button is-link" href="/tags/launchtemplates">launchtemplates</a>
+    
+</div>
+
+    
+    <div class="content">
+      <p>While working on migrating our CodeDeploys to Blue/Green deployments, I ran into a bug with AWS CodeDeploy.  Specificaly, we are using LaunchTemplates with our AutoScaling groups.</p>
+<p>With this setup, we'd get this not so helpful error:</p>
+<blockquote>
+<p>The IAM role arn:aws:iam::XXXXXXXXXX:role/CodeDeployRole does not give you permission to perform operations in the following AWS service: AmazonAutoScaling. Contact your AWS administrator if you need help. If you are an AWS administrator, you can grant permissions to your users or groups by creating IAM policies.</p>
+</blockquote>
+<p>A few google search later it seems that other are seeing this issue, and no one has figured out how to fix it.  I though all how was lost at first, but then in talking with my co-workers, we decied to file a Feature Request Ticket with AWS.</p>
+<p>This is what AWS Support came back with:</p>
+<blockquote>
+<p>Hello,</p>
+<p>Thank you for contacting Amazon Web Services Support. I understand that you are running into issues when using an AutoScaling Group (ASG) with a launch template for your CodeDeploy Blue/Green deployments. To clarify, launch templates are supported with Blue/Green deployments; however, there are additional permissions that are needed for the CodeDeploy role in order for this feature to work. When using launch templates the role must have the following permissions added:</p>
+<ul>
+<li>ec2:RunInstance</li>
+<li>ec2:CreateTags</li>
+<li>iam:PassRole</li>
+</ul>
+<p>Currently, this information is missing from the AWS CodeDeploy documentation; there is an open feature request to update the documentation as well as to add these required permissions to the managed CodeDeploy policy so that users will not need to manually add these permissions. At the moment, this feature is still being reviewed so I do not have any timeline or ETA for this but at the very least, the documentation will be updated to reflect the extra permissions required for using launch templates.</p>
+</blockquote>
+<p>With this new bit of information, I created a new policy and attached it to our existing <strong>CodeDeploy</strong> role:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+    <span style="color:#f92672">&#34;Statement&#34;</span>: [
+        {
+            <span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;VisualEditor0&#34;</span>,
+            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+            <span style="color:#f92672">&#34;Action&#34;</span>: [
+                <span style="color:#e6db74">&#34;iam:PassRole&#34;</span>,
+                <span style="color:#e6db74">&#34;ec2:CreateTags&#34;</span>,
+                <span style="color:#e6db74">&#34;ec2:RunInstances&#34;</span>
+            ],
+            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;*&#34;</span>
+        }
+    ]
+}
+</code></pre></div><p>Then I went over to CodeDeploy and trigged a deploy to the Blue/Green Deploment group, and Success!</p>
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fh2ik.co%2f2019%2f02%2f28%2faws-codedeploy-blue-green%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fh2ik.co%2f2019%2f02%2f28%2faws-codedeploy-blue-green%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=AWS%20Blue%2fGreen%20Deployments%20with%20Launch%20Templates - https%3a%2f%2fh2ik.co%2f2019%2f02%2f28%2faws-codedeploy-blue-green%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=https%3a%2f%2fh2ik.co%2f2019%2f02%2f28%2faws-codedeploy-blue-green%2f&title=AWS%20Blue%2fGreen%20Deployments%20with%20Launch%20Templates" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017-2019 h2ik | Build With <a href="http://gohugo.io" target="_blank">Hugo</a> ♥</p>
+  </div>
+</section>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-381949-8', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="devops, golang, go, docker, kubernetes" name="keywords">
+<meta content="Jon Whitcraft" name="author">
+<meta property="og:title" content="Dynamic Vagrant Shares - h2ik | hell if i know">
+<meta property="og:url" content="https://h2ik.co/2014/05/14/dynamic-vagrant-shares/">
+<meta property="og:description" content="From My Brain To Yours">
+<meta property="og:type" content="website" />
+<title>Dynamic Vagrant Shares | h2ik | hell if i know</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="https://h2ik.co/css/style.css">
+<link rel="shortcut icon" href="https://h2ik.co/favicon.ico">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+
+</head>
+
+<body>
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://h2ik.co"><h1 class="title is-4">h2ik | hell if i know</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/h2ikco" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/h2ikco" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Dynamic Vagrant Shares</h1>
+    <h2 class="subtitle is-5">May 14, 2014 by Jon Whitcraft</h2>
+    
+      <div class="tags">
+    
+        <a class="button is-link" href="/tags/vagrant">vagrant</a>
+    
+        <a class="button is-link" href="/tags/yaml">yaml</a>
+    
+        <a class="button is-link" href="/tags/development">development</a>
+    
+</div>
+
+    
+    <div class="content">
+      <p>At <a href="http://www.sugarcrm.com">SugarCRM</a>, we are deploying <a href="http://www.vagrantup.com">Vagrant</a> stacks as part of the DevOps Initiative.  How ever we ran into a few problems with defining shares. Since no two engineers work the same or have the same setup we couldn't define shares that were hard coded in the Vagrantfile. We had to come up with a way to do shares that end user could customize easily. While looking for solutions someone pointed out that the Vagrantfile is just Ruby and we could use <a href="http://www.yaml.org/">YAML</a> to define the shares. The seed had been planted and this is the bit of code we came up with.</p>
+<p>Place this bit of code inside the Vagrantfile:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">VAGRANTFILE_API_VERSION</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2&#39;</span>
+<span style="color:#66d9ef">Vagrant</span><span style="color:#f92672">.</span>configure(<span style="color:#66d9ef">VAGRANTFILE_API_VERSION</span>) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+  <span style="color:#75715e">#....</span>
+  <span style="color:#75715e"># Start Dynamic Shares</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>exists?(<span style="color:#e6db74">&#39;share.yaml&#39;</span>)
+    require <span style="color:#e6db74">&#39;yaml&#39;</span>
+    yaml <span style="color:#f92672">=</span> <span style="color:#66d9ef">YAML</span><span style="color:#f92672">.</span>load_file(<span style="color:#66d9ef">Dir</span><span style="color:#f92672">.</span>pwd <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/share.yaml&#39;</span>)
+    yaml<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>share<span style="color:#f92672">|</span>
+      share_group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;vagrant&#39;</span>
+      share_group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;apache&#39;</span> <span style="color:#66d9ef">if</span> share<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;target&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=~</span> <span style="color:#e6db74">/</span><span style="color:#e6db74">www</span><span style="color:#e6db74">\/</span><span style="color:#e6db74">html</span><span style="color:#e6db74">/</span>
+      config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>synced_folder share<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;source&#39;</span><span style="color:#f92672">]</span>, share<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;target&#39;</span><span style="color:#f92672">]</span>, <span style="color:#e6db74">create</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">owner</span>: <span style="color:#e6db74">&#39;vagrant&#39;</span>, <span style="color:#e6db74">group</span>: share_group
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
+  <span style="color:#75715e"># End Dynamic Shares</span>
+  <span style="color:#75715e">#...</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>share.yaml example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#e6db74">-
+</span><span style="color:#e6db74"> </span><span style="color:#e6db74"> </span><span style="color:#e6db74">source: &#39;/Users/jwhitcraft/Sites&#39;</span>
+  target: <span style="color:#e6db74">&#39;/var/www/html/Sites&#39;</span>
+<span style="color:#e6db74">-
+</span><span style="color:#e6db74"> </span><span style="color:#e6db74"> </span><span style="color:#e6db74">source: &#39;/Users/jwhitcraft/Documents&#39;</span>
+  target: <span style="color:#e6db74">&#39;/var/www/html/Docs&#39;</span>
+</code></pre></div><p>This method allows the user to create a share.yaml next to the Vagrantfile, which it will then be picked up and converted into the config.vm.synced_folder attribute when then <code>vagrant up</code> or <code>vagrant reload</code> command is issued.</p>
+<p>Hope this helps others!</p>
+
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fh2ik.co%2f2014%2f05%2f14%2fdynamic-vagrant-shares%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fh2ik.co%2f2014%2f05%2f14%2fdynamic-vagrant-shares%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=Dynamic%20Vagrant%20Shares - https%3a%2f%2fh2ik.co%2f2014%2f05%2f14%2fdynamic-vagrant-shares%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=https%3a%2f%2fh2ik.co%2f2014%2f05%2f14%2fdynamic-vagrant-shares%2f&title=Dynamic%20Vagrant%20Shares" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017-2019 h2ik | Build With <a href="http://gohugo.io" target="_blank">Hugo</a> ♥</p>
+  </div>
+</section>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-381949-8', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
